@@ -12,14 +12,14 @@ BIN_DIR := bin
 TARGET := main
 
 # Source files (add more .cpp files if your program consists of multiple files)
-SRCS := $(wildcard $(SRC_DIR)/*.cpp)
+SRCS := $(shell find $(SRC_DIR) -name '*.cpp')
 
 # Object files derived from source files
 OBJS := $(patsubst $(SRC_DIR)/%.cpp,$(BIN_DIR)/%.o,$(SRCS))
 
 # Rule to compile .cpp files into object files in bin directory
 $(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp
-	@mkdir -p $(BIN_DIR)
+	@mkdir -p $(dir $@)
 	$(CXX) $(CXXFLAGS) $(SFML_INCLUDE) -c $< -o $@
 
 # Rule to link object files into executable

@@ -1,22 +1,48 @@
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
-int main()
-{
-    sf::RenderWindow window(sf::VideoMode(800, 600), "The drawing window");
+#include "Walker/Walker.h"
 
-    while (window.isOpen())
-    {
-        sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }
+int main() {
+  // ------------------------- INITIALIZE -------------------------
+  sf::ContextSettings settings;
+  settings.antialiasingLevel = 8;
 
-        window.clear(sf::Color::Black);
+  sf::RenderWindow window(sf::VideoMode(800, 600), "RPG Game",
+                          sf::Style::Default, settings);
+  window.setVerticalSyncEnabled(true);
 
-        window.display();
+  sf::RenderTexture renderTexture;
+  renderTexture.create(800, 600);
+
+  sf::Sprite renderSprite(renderTexture.getTexture());
+
+  sf::Clock clock;
+  // ------------------------- INITIALIZE -------------------------
+
+  // ------------------------- OBJECTS -------------------------
+  Walker walker(renderTexture);
+
+  while (window.isOpen()) {
+    // ------------------------- UPDATE -------------------------
+    sf::Time timer = clock.restart();
+    float deltaTime = timer.asMilliseconds();
+
+    sf::Event event;
+    while (window.pollEvent(event)) {
+      if (event.type == sf::Event::Closed) window.close();
     }
+    // ------------------------- UPDATE -------------------------
+    walker.Update(deltaTime);
+    // ------------------------- RENDER -------------------------
+    walker.Draw();
+    renderTexture.display();
 
-    return 0;
+    window.clear(sf::Color::White);
+    window.draw(renderSprite);
+    window.display();
+    // ------------------------- RENDER ------------------------
+  }
+
+  return 0;
 }
