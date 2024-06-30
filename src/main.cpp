@@ -22,7 +22,7 @@ int main() {
   // ------------------------- INITIALIZE -------------------------
 
   // ------------------------- OBJECTS -------------------------
-  Distribution distribution(renderTexture);
+  Walker walker(renderTexture);
 
   while (window.isOpen()) {
     // ------------------------- UPDATE -------------------------
@@ -34,9 +34,9 @@ int main() {
       if (event.type == sf::Event::Closed) window.close();
     }
     // ------------------------- UPDATE -------------------------
-    distribution.Update(deltaTime);
+    walker.Update(deltaTime);
     // ------------------------- RENDER -------------------------
-    distribution.Draw();
+    walker.Draw();
     renderTexture.display();
 
     window.clear(sf::Color::White);
