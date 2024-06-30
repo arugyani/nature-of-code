@@ -6,8 +6,10 @@ Walker::Walker(sf::RenderTarget& target) : Graphics(target) {
   this->position.x = target.getSize().x / 2;
   this->position.y = target.getSize().y / 2;
 
-  shape.setRadius(1.f);
-  shape.setFillColor(sf::Color::Black);
+  shape.setRadius(2.f);
+  shape.setFillColor(sf::Color(0, 0, 0));
+  // shape.setOutlineThickness(2);
+  // shape.setOutlineColor(sf::Color(27, 36, 36));
   shape.setPosition(position);
 }
 
@@ -18,6 +20,8 @@ void Walker::MoveRandom(double deltaTime) {
 
   this->position.x += xStep * speed * deltaTime;
   this->position.y += yStep * speed * deltaTime;
+
+  shape.setPosition(position);
 }
 
 void Walker::MoveRight(double deltaTime) {
@@ -31,6 +35,8 @@ void Walker::MoveRight(double deltaTime) {
   } else {
     this->position.y -= speed * deltaTime;  // 20% chance to go up
   }
+
+  shape.setPosition(position);
 }
 
 void Walker::MoveToMouse(double deltaTime, sf::Vector2i mouse) {
@@ -51,6 +57,34 @@ void Walker::MoveToMouse(double deltaTime, sf::Vector2i mouse) {
     this->position.x += xStep * speed * deltaTime;
     this->position.y += yStep * speed * deltaTime;
   }
+
+  shape.setPosition(position);
+}
+
+void Walker::LevyFlight(double deltaTime) {
+  float random = static_cast<float>(std::rand() % 1000) / 1000.0;
+
+  int xStep;
+  int yStep;
+
+  if (random < 0.01) {
+    xStep = (std::rand() % 201) - 100;
+    yStep = (std::rand() % 201) - 100;
+  } else {
+    xStep = (std::rand() % 3) - 1;
+    yStep = (std::rand() % 3) - 1;
+  }
+
+  std::cout << xStep << ", " << yStep << std::endl;
+
+  int newX = this->position.x + (xStep * speed * deltaTime);
+  int newY = this->position.y + (yStep * speed * deltaTime);
+
+  if (newX < 0 || newX > target.getSize().x) return;
+  if (newY < 0 || newY > target.getSize().y) return;
+
+  this->position.x += xStep * speed * deltaTime;
+  this->position.y += yStep * speed * deltaTime;
 
   shape.setPosition(position);
 }

@@ -13,7 +13,7 @@ class Walker : public Graphics {
   sf::CircleShape shape;
   sf::Vector2f position;
 
-  float speed = 0.15;
+  float speed = 100.0f;
 
   sf::Vector2f NormDirection(const sf::Vector2f& start,
                              const sf::Vector2f& target) {
@@ -34,6 +34,7 @@ class Walker : public Graphics {
   void MoveRandom(double deltaTime);
   void MoveRight(double deltaTime);
   void MoveToMouse(double deltaTime, sf::Vector2i mouse);
+  void LevyFlight(double deltaTime);
 
   void Draw() override { target.draw(shape); };
 };

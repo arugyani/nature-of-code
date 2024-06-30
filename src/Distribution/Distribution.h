@@ -4,12 +4,14 @@
 class Distribution : public Graphics {
  private:
   std::vector<sf::RectangleShape> counts;
-  unsigned int range = 10;
+  unsigned int range = 20;
   unsigned int maxHeight = 0;
 
  public:
   Distribution(sf::RenderTarget& target);
 
-  void Update(double deltaTime);
+  void Uniform(double deltaTime);
+  void AcceptReject(double deltaTime);
+
   void Draw() override;
 };

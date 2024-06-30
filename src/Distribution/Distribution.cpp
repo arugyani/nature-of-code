@@ -1,5 +1,7 @@
 #include "Distribution.h"
 
+#include <iostream>
+
 Distribution::Distribution(sf::RenderTarget& target) : Graphics(target) {
   this->counts.resize(range, sf::RectangleShape());
 
@@ -22,8 +24,42 @@ Distribution::Distribution(sf::RenderTarget& target) : Graphics(target) {
   }
 }
 
-void Distribution::Update(double deltaTime) {
+void Distribution::Uniform(double deltaTime) {
   unsigned int index = (std::rand() % range);
+  unsigned int speed = 5;
+
+  if (index < range && maxHeight <= target.getSize().y) {
+    sf::Vector2f size = counts[index].getSize();
+    size.y += speed;
+
+    sf::Vector2f position = counts[index].getPosition();
+    position.y -= speed;
+
+    counts[index].setSize(size);
+    counts[index].setPosition(position);
+
+    if (size.y > maxHeight) {
+      maxHeight = size.y + 5;
+    }
+  }
+}
+
+void Distribution::AcceptReject(double deltaTime) {
+  float accept_reject;
+
+  while (true) {
+    float r1 = (std::rand() % 1000) / 1000.0;
+    float r2 = (std::rand() % 1000) / 1000.0;
+
+    std::cout << r1 << ", " << r2 << std::endl;
+
+    if (r2 < r1) {
+      accept_reject = r1;
+      break;
+    }
+  }
+
+  unsigned int index = static_cast<int>(accept_reject * range);
   unsigned int speed = 5;
 
   if (index < range && maxHeight <= target.getSize().y) {

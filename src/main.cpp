@@ -8,7 +8,7 @@
 int main() {
   // ------------------------- INITIALIZE -------------------------
   sf::ContextSettings settings;
-  settings.antialiasingLevel = 8;
+  settings.antialiasingLevel = 4;
 
   sf::Clock clock;
   sf::RenderWindow window(sf::VideoMode(800, 600), "RPG Game",
@@ -18,6 +18,8 @@ int main() {
 
   sf::RenderTexture renderTexture;
   renderTexture.create(800, 600);
+  renderTexture.setSmooth(true);
+
   sf::Sprite renderSprite(renderTexture.getTexture());
 
   sf::Vector2i mouse;
@@ -25,12 +27,12 @@ int main() {
   // ------------------------- INITIALIZE -------------------------
 
   // ------------------------- OBJECTS -------------------------
-  Gaussian normal(renderTexture);
+  Distribution distribution(renderTexture);
 
   while (window.isOpen()) {
     // ------------------------- UPDATE -------------------------
     sf::Time timer = clock.restart();
-    float deltaTime = timer.asMilliseconds();
+    float deltaTime = timer.asSeconds();
 
     sf::Event event;
     while (window.pollEvent(event)) {
@@ -41,11 +43,12 @@ int main() {
 
     if (focus) mouse = sf::Mouse::getPosition(window);
 
-    normal.Update();
+    distribution.AcceptReject(deltaTime);
     // ------------------------- UPDATE -------------------------
 
     // ------------------------- RENDER -------------------------
-    normal.Draw();
+    renderTexture.clear(sf::Color::Transparent);
+    distribution.Draw();
     renderTexture.display();
 
     window.clear(sf::Color::White);
