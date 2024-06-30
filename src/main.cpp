@@ -36,7 +36,6 @@ int main() {
     // ------------------------- UPDATE -------------------------
     distribution.Update(deltaTime);
     // ------------------------- RENDER -------------------------
-    renderTexture.clear(sf::Color::White);
     distribution.Draw();
     renderTexture.display();
 

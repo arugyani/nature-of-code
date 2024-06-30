@@ -4,9 +4,8 @@
 class Distribution : public Graphics {
  private:
   std::vector<sf::RectangleShape> counts;
-  unsigned int range = 20;
+  unsigned int range = 10;
   unsigned int maxHeight = 0;
-  unsigned int leader = 0;
 
  public:
   Distribution(sf::RenderTarget& target);

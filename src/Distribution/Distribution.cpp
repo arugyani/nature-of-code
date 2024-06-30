@@ -6,12 +6,21 @@ Distribution::Distribution(sf::RenderTarget& target) : Graphics(target) {
   this->counts.resize(range, sf::RectangleShape());
 
   float outlineThickness = 2;
-  float rectangleWidth = target.getSize().x / range;
+  float totalWidth = target.getSize().x;
+  float rectangleWidth = (totalWidth / range) - (outlineThickness * 2);
+  float effectiveWidth = totalWidth / range;
+
+  target.clear(sf::Color(41, 49, 61));
 
   for (int i = 0; i < range; i++) {
     counts[i].setSize(sf::Vector2f(rectangleWidth, 0));
-    counts[i].setPosition(i * rectangleWidth, target.getSize().y);
-    counts[i].setFillColor(sf::Color::Black);
+    counts[i].setOrigin(0, 0);
+
+    counts[i].setPosition(i * effectiveWidth + outlineThickness,
+                          target.getSize().y);
+    counts[i].setFillColor(sf::Color(191, 200, 214));
+    counts[i].setOutlineThickness(outlineThickness);
+    counts[i].setOutlineColor(sf::Color(31, 32, 33));
   }
 }
 
@@ -31,18 +40,12 @@ void Distribution::Update(double deltaTime) {
 
     if (size.y > maxHeight) {
       maxHeight = size.y + 5;
-      leader = index;
     }
   }
 }
 
 void Distribution::Draw() {
   for (int i = 0; i < range; i++) {
-    if (i != leader)
-      counts[i].setFillColor(sf::Color::Black);
-    else
-      counts[i].setFillColor(sf::Color::Green);
-
     target.draw(counts[i]);
   }
 }

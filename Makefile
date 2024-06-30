@@ -33,5 +33,5 @@ all: clean $(BIN_DIR)/$(TARGET)
 clean:
 	@rm -rf $(BIN_DIR)
 
-run: $(BIN_DIR)/$(TARGET)
+run: clean $(BIN_DIR)/$(TARGET)
 	@$(BIN_DIR)/$(TARGET)
