@@ -2,6 +2,7 @@
 #include <iostream>
 
 #include "Distribution/Distribution.h"
+#include "Gaussian/Gaussian.h"
 #include "Walker/Walker.h"
 
 int main() {
@@ -24,7 +25,7 @@ int main() {
   // ------------------------- INITIALIZE -------------------------
 
   // ------------------------- OBJECTS -------------------------
-  Walker walker(renderTexture);
+  Gaussian normal(renderTexture);
 
   while (window.isOpen()) {
     // ------------------------- UPDATE -------------------------
@@ -37,12 +38,14 @@ int main() {
       if (event.type == sf::Event::GainedFocus) focus = true;
       if (event.type == sf::Event::LostFocus) focus = false;
     }
-    // ------------------------- UPDATE -------------------------
+
     if (focus) mouse = sf::Mouse::getPosition(window);
 
-    walker.MoveToMouse(deltaTime, mouse);
+    normal.Update();
+    // ------------------------- UPDATE -------------------------
+
     // ------------------------- RENDER -------------------------
-    walker.Draw();
+    normal.Draw();
     renderTexture.display();
 
     window.clear(sf::Color::White);

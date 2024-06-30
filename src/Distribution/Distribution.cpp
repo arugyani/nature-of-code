@@ -1,7 +1,5 @@
 #include "Distribution.h"
 
-#include <iostream>
-
 Distribution::Distribution(sf::RenderTarget& target) : Graphics(target) {
   this->counts.resize(range, sf::RectangleShape());
 
