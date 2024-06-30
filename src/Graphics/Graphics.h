@@ -9,6 +9,5 @@ class Graphics {
   Graphics(sf::RenderTarget& target) : target(target) {}
   virtual ~Graphics(){};
 
-  virtual void Update(double deltaTime) = 0;
   virtual void Draw() = 0;
 };

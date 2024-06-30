@@ -13,11 +13,27 @@ class Walker : public Graphics {
   sf::CircleShape shape;
   sf::Vector2f position;
 
-  float speed = 0.1;
+  float speed = 0.15;
+
+  sf::Vector2f NormDirection(const sf::Vector2f& start,
+                             const sf::Vector2f& target) {
+    sf::Vector2f direction(start.x - target.x, start.y - target.y);
+    float distance =
+        std::sqrt(direction.x * direction.x + direction.y * direction.y);
+
+    if (distance == 0) return start;
+
+    sf::Vector2f normalizedDirection = direction / distance;
+
+    return normalizedDirection;
+  }
 
  public:
   Walker(sf::RenderTarget& target);
 
-  void Update(double deltaTime) override;
-  void Draw() override;
+  void MoveRandom(double deltaTime);
+  void MoveRight(double deltaTime);
+  void MoveToMouse(double deltaTime, sf::Vector2i mouse);
+
+  void Draw() override { target.draw(shape); };
 };

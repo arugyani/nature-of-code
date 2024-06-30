@@ -10,6 +10,6 @@ class Distribution : public Graphics {
  public:
   Distribution(sf::RenderTarget& target);
 
-  void Update(double deltaTime) override;
+  void Update(double deltaTime);
   void Draw() override;
 };

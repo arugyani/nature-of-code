@@ -11,15 +11,16 @@ Walker::Walker(sf::RenderTarget& target) : Graphics(target) {
   shape.setPosition(position);
 }
 
-void Walker::Update(double deltaTime) {
+void Walker::MoveRandom(double deltaTime) {
   /* PURELY RANDOM MOVEMENT */
-  // int xStep = (std::rand() % 3) - 1;
-  // int yStep = (std::rand() % 3) - 1;
+  int xStep = (std::rand() % 3) - 1;
+  int yStep = (std::rand() % 3) - 1;
 
-  // this->position.x += xStep * speed * deltaTime;
-  // this->position.y += yStep * speed * deltaTime;
+  this->position.x += xStep * speed * deltaTime;
+  this->position.y += yStep * speed * deltaTime;
+}
 
-  /* TENDS TO MOVE RIGHT */
+void Walker::MoveRight(double deltaTime) {
   float random = static_cast<float>(std::rand() % 10) / 10.0;
   if (random < 0.4) {
     this->position.x += speed * deltaTime;  // 40% chance to go right
@@ -30,8 +31,26 @@ void Walker::Update(double deltaTime) {
   } else {
     this->position.y -= speed * deltaTime;  // 20% chance to go up
   }
+}
+
+void Walker::MoveToMouse(double deltaTime, sf::Vector2i mouse) {
+  /* 50% CHANCE OF MOVING IN DIRECTION OF MOUSE */
+  float random = static_cast<float>(std::rand() % 100) / 100.0;
+  if (random < 0.5) {  // Move towards mouse
+    sf::Vector2f direction =
+        NormDirection(position, sf::Vector2f(mouse.x, mouse.y));
+
+    float moveDistance = speed * deltaTime;
+    sf::Vector2f moveVector = direction * moveDistance;
+
+    this->position -= moveVector;
+  } else {  // Move randomly
+    int xStep = (std::rand() % 3) - 1;
+    int yStep = (std::rand() % 3) - 1;
+
+    this->position.x += xStep * speed * deltaTime;
+    this->position.y += yStep * speed * deltaTime;
+  }
 
   shape.setPosition(position);
 }
-
-void Walker::Draw() { target.draw(shape); }
