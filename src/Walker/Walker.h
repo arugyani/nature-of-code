@@ -1,5 +1,5 @@
 #pragma once
-#include <SFML/Graphics.hpp>
+#include "../Graphics/Graphics.h"
 
 /**
  * @class Walker
@@ -8,19 +8,16 @@
  * The Walker class handles the lgoic for a walker (small circle) that moves
  * randomly on the screen and draws itself on a given render texture.
  */
-class Walker {
+class Walker : public Graphics {
  private:
   sf::CircleShape shape;
   sf::Vector2f position;
-
-  sf::RenderTarget& target;
 
   float speed = 0.1;
 
  public:
   Walker(sf::RenderTarget& target);
 
-  void Load();
-  void Update(double deltaTime);
-  void Draw();
+  void Update(double deltaTime) override;
+  void Draw() override;
 };

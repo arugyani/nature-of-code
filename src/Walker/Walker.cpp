@@ -1,6 +1,6 @@
 #include "Walker.h"
 
-Walker::Walker(sf::RenderTarget& target) : target(target) {
+Walker::Walker(sf::RenderTarget& target) : Graphics(target) {
   this->position.x = target.getSize().x / 2;
   this->position.y = target.getSize().y / 2;
 

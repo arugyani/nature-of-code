@@ -1,6 +1,7 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "Distribution/Distribution.h"
 #include "Walker/Walker.h"
 
 int main() {
@@ -21,7 +22,7 @@ int main() {
   // ------------------------- INITIALIZE -------------------------
 
   // ------------------------- OBJECTS -------------------------
-  Walker walker(renderTexture);
+  Distribution distribution(renderTexture);
 
   while (window.isOpen()) {
     // ------------------------- UPDATE -------------------------
@@ -33,9 +34,10 @@ int main() {
       if (event.type == sf::Event::Closed) window.close();
     }
     // ------------------------- UPDATE -------------------------
-    walker.Update(deltaTime);
+    distribution.Update(deltaTime);
     // ------------------------- RENDER -------------------------
-    walker.Draw();
+    renderTexture.clear(sf::Color::White);
+    distribution.Draw();
     renderTexture.display();
 
     window.clear(sf::Color::White);
