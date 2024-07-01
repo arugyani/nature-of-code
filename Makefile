@@ -7,6 +7,8 @@ LIBS := -lsfml-graphics -lsfml-window -lsfml-system
 # Directories
 SRC_DIR := src
 BIN_DIR := bin
+ASSETS_DIR := assets
+BIN_ASSETS_DIR := $(BIN_DIR)/assets
 
 # Name of your executable (change this accordingly)
 TARGET := main
@@ -26,12 +28,17 @@ $(BIN_DIR)/%.o: $(SRC_DIR)/%.cpp
 $(BIN_DIR)/$(TARGET): $(OBJS)
 	$(CXX) $(CXXFLAGS) $(SFML_LIB) $^ $(LIBS) -o $@
 
+# Rule to copy assets to bin directory
+$(BIN_ASSETS_DIR):
+	@mkdir -p $(BIN_ASSETS_DIR)
+	@cp -r $(ASSETS_DIR)/* $(BIN_ASSETS_DIR)/
+
 .PHONY: all clean run
 
-all: clean $(BIN_DIR)/$(TARGET)
+all: clean $(BIN_DIR)/$(TARGET) $(BIN_ASSETS_DIR)
 
 clean:
 	@rm -rf $(BIN_DIR)
 
-run: clean $(BIN_DIR)/$(TARGET)
+run: all
 	@$(BIN_DIR)/$(TARGET)
